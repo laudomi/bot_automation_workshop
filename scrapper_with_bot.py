@@ -12,7 +12,9 @@ load_dotenv()
 
 TELEGRAM_TOKEN     = os.getenv("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_ID   = os.getenv("TELEGRAM_CHAT_ID")
-URL                = os.getenv("URL")
+
+URL = "https://entradas.roigarena.com/roigarena/select/2801703?sessionPreviewToken=AK6G3EN576M3M2OX&viewCode=V_blockmap_view"
+
 
 # es - Validar configuración
 # en - Validate configuration
@@ -22,8 +24,6 @@ def validate_configuration():
         errores.append("  ❌ TELEGRAM_TOKEN no configurado en .env")
     if not TELEGRAM_CHAT_ID or TELEGRAM_CHAT_ID == "PON_AQUI_TU_CHAT_ID":
         errores.append("  ❌ TELEGRAM_CHAT_ID no configurado en .env")
-    if not URL:
-        errores.append("  ❌ URL no configurada en .env")
     if errores:
         print("\n⚠️  Errores de configuración en el fichero .env:")
         for e in errores:

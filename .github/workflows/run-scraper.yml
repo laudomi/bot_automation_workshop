@@ -1,0 +1,42 @@
+name: Run Web Scraper with Bot
+
+on:
+    workflow_dispatch:
+        inputs:
+            bot_message:
+                description: "Optional: Custom message to send with the results"
+                required: false
+                type: string
+
+    schedule:
+        - cron: "* */1 * * *" # Runs every hour
+
+jobs:
+    run-scraper:
+        runs-on: ubuntu-latest
+        environment: production
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.11"
+
+            - name: Install dependencies
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install playwright
+                  playwright install chromium
+                  pip install python-telegram-bot
+                  pip install python-dotenv
+
+            - name: Create .env file
+              run: |
+                  echo "TELEGRAM_TOKEN=${{ vars.TELEGRAM_TOKEN }}" > .env
+                  echo "TELEGRAM_CHAT_ID=${{ vars.TELEGRAM_CHAT_ID }}" >> .env
+
+            - name: Run scraper with bot
+              run: python3 scrapper_with_bot.py
